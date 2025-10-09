@@ -1,0 +1,8 @@
+{
+  "executive_summary": "Key anomalies were detected with low false positives.",
+  "technical_details": "IsolationForest and LOF ensemble flagged outliers with calibrated probabilities.",
+  "recommendations": "Tighten thresholds and add data quality checks.",
+  "risk_assessment": "Medium likelihood, high impact in Q3.",
+  "action_items": "Create Jira tickets and assign owners.",
+  "viz_descriptions": "Histogram shows right-skewed anomaly probabilities."
+}

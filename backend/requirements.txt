@@ -1,0 +1,62 @@
+# Core
+fastapi
+uvicorn[standard]
+pydantic
+python-multipart
+
+# Database
+sqlalchemy
+alembic
+psycopg2-binary
+redis
+
+# ML/Data
+pandas
+numpy
+scikit-learn
+pyarrow
+matplotlib
+seaborn
+
+# Azure
+azure-storage-blob
+azure-ai-ml
+azure-identity
+
+# LLM
+openai
+tiktoken
+
+# Workers
+celery
+flower
+tenacity
+
+# HTTP Client
+httpx
+
+# Utils
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+structlog
+prometheus-client
+
+# File handling
+python-magic
+pypdf
+openpyxl
+reportlab
+
+# Testing
+pytest
+pytest-asyncio
+pytest-mock
+pytest-cov
+faker
+
+# Development
+black
+flake8
+mypy
+pre-commit
