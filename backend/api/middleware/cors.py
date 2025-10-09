@@ -29,18 +29,22 @@ def get_origins() -> List[str]:
 
 
 def add_cors(app: FastAPI) -> None:
-	app.add_middleware(
-		CORSMiddleware,
-		allow_origins=get_origins(),
-		allow_credentials=True,
-		allow_methods=ALLOWED_METHODS,
-		allow_headers=ALLOWED_HEADERS,
-		expose_headers=["X-Request-ID", "X-New-Access-Token", "Retry-After"],
-		max_age=86400,
-	)
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=get_origins(),
+        allow_credentials=True,
+        allow_methods=ALLOWED_METHODS,
+        allow_headers=ALLOWED_HEADERS,
+        expose_headers=["X-Request-ID", "X-New-Access-Token", "Retry-After"],
+        max_age=86400,
+    )
+
+    @app.options("/{full_path:path}")
+    async def preflight_handler(request: Request):
+        # Starlette CORS handles most of this; explicit 200 ensures proxies behave
+        return Response(status_code=200)
 
 
-@app.options("/{full_path:path}")
-async def preflight_handler(request: Request):
-	# Starlette CORS handles most of this; explicit 200 ensures proxies behave
-	return Response(status_code=200)
+def configure_cors(app: FastAPI) -> None:
+    """Configure CORS for the FastAPI app."""
+    add_cors(app)

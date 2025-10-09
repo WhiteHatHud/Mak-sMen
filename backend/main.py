@@ -19,11 +19,11 @@ from api.routes import projects, files, analysis, reports, webhooks
 
 # Import middleware
 from api.middleware.auth import auth_middleware
-from api.middleware.rate_limiter import RateLimitMiddleware
+from api.middleware.rate_limiter import RateLimiterMiddleware
 from api.middleware.cors import configure_cors
 
 # Import services
-from services.azure_ml.client import AzureMLClient
+from services.azure_ml.client import AMLClientWrapper
 from workers import celery_app
 
 # Setup logging
@@ -36,11 +36,12 @@ async def lifespan(app: FastAPI):
     # Startup
     logger.info("Starting up application...")
     
-    # Initialize database
-    Base.metadata.create_all(bind=engine)
+    # Initialize database (use sync engine for table creation)
+    # Note: In production, use alembic migrations instead
+    # Base.metadata.create_all(bind=engine.sync_engine)
     
     # Initialize Azure ML client
-    app.state.azure_ml = AzureMLClient()
+    app.state.azure_ml = AMLClientWrapper()
     
     # Initialize Celery
     celery_app.conf.update(broker_url=settings.CELERY_BROKER_URL)
@@ -62,7 +63,8 @@ app = FastAPI(
 )
 
 # Configure middleware
-app.add_middleware(RateLimitMiddleware)
+# Note: Rate limiter disabled for development (requires Redis)
+# app.add_middleware(RateLimiterMiddleware)
 configure_cors(app)
 
 # Include routers

@@ -8,6 +8,7 @@ import logging
 from contextlib import asynccontextmanager
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import event, text
 from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type
 from sqlalchemy.exc import OperationalError, DBAPIError
@@ -42,6 +43,12 @@ read_engine: AsyncEngine = create_async_engine(
 
 WriteSession = async_sessionmaker(write_engine, expire_on_commit=False)
 ReadSession = async_sessionmaker(read_engine, expire_on_commit=False)
+
+# --- Base class for models ---
+Base = declarative_base()
+
+# --- Aliases for compatibility ---
+engine = write_engine  # Default to write engine
 
 # --- Query logging (duration) ---
 @event.listens_for(write_engine.sync_engine, "before_cursor_execute")

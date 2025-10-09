@@ -5,7 +5,7 @@ import os
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, Column
 from sqlalchemy.orm import DeclarativeBase, declared_attr
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.dialects import postgresql as pg
@@ -67,9 +67,14 @@ class Base(DeclarativeBase):
 
 
 class TimestampMixin:
-    created_at = pg.TIMESTAMP(timezone=True).as_generic(  # type: ignore[attr-defined]
-        timezone=True
-    ).with_variant(pg.TIMESTAMP(timezone=True), 'postgresql')  # type: ignore
-    updated_at = pg.TIMESTAMP(timezone=True).as_generic(  # type: ignore[attr-defined]
-        timezone=True
-    ).with_variant(pg.TIMESTAMP(timezone=True), 'postgresql')  # type: ignore
+    created_at = Column(
+        pg.TIMESTAMP(timezone=True),
+        default=now_utc,
+        nullable=False
+    )
+    updated_at = Column(
+        pg.TIMESTAMP(timezone=True),
+        default=now_utc,
+        onupdate=now_utc,
+        nullable=False
+    )

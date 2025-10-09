@@ -13,6 +13,8 @@ from celery import Celery
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 import httpx
 
+# Import the celery app from analysis_worker
+from workers.analysis_worker import celery_app
 
 # Reuse Celery instance
 webhook_app = celery_app

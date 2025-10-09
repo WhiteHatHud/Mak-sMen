@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 from api.middleware.auth import get_current_user
@@ -17,10 +17,10 @@ class ApiResponse(BaseModel):
 
 
 class ReportGenerateRequest(BaseModel):
-	analysis_id: str
-	format: str = Field(..., regex=r"^(pdf|html|json)$")
-
-
+    analysis_id: str
+    format: str = Field(..., pattern=r"^(pdf|html|json)$")
+    recipients: Optional[List[str]] = None
+    watermark: Optional[str] = None
 
 
 def ok(data: dict) -> ApiResponse:

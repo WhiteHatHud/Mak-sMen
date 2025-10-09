@@ -2,13 +2,15 @@
 fastapi
 uvicorn[standard]
 pydantic
+pydantic-settings
 python-multipart
 
 # Database
 sqlalchemy
 alembic
 psycopg2-binary
-redis
+asyncpg
+redis[hiredis]
 
 # ML/Data
 pandas
@@ -47,6 +49,7 @@ python-magic
 pypdf
 openpyxl
 reportlab
+aiofiles
 
 # Testing
 pytest

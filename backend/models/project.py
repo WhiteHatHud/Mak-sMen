@@ -98,3 +98,22 @@ class Project(Base):
             obj.deleted_at = now_utc()
             obj.status = 'deleted'
             await session.commit()
+
+
+class User(Base):
+    """User model for authentication and authorization."""
+    id: Mapped[uuid.UUID] = mapped_column(GUID(), primary_key=True, default=uuid.uuid4)
+    username: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
+    email: Mapped[str] = mapped_column(String(255), unique=True, nullable=False, index=True)
+    hashed_password: Mapped[str] = mapped_column(String(255), nullable=False)
+    is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
+    is_admin: Mapped[bool] = mapped_column(default=False, nullable=False)
+    created_at: Mapped[str] = mapped_column(default=now_utc)
+    updated_at: Mapped[str] = mapped_column(default=now_utc, onupdate=now_utc)
+    
+    # Relationships - users can own projects
+    projects: Mapped[List["Project"]] = relationship("Project", foreign_keys="Project.created_by", back_populates="owner")
+
+
+# Add back reference to Project
+Project.owner: Mapped["User"] = relationship("User", foreign_keys="Project.created_by", back_populates="projects")

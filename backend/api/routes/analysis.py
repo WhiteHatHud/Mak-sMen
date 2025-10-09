@@ -1,6 +1,6 @@
 from typing import Optional, List
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field, conlist
+from pydantic import BaseModel, Field
 from api.middleware.auth import get_current_user
 from workers.analysis_worker import start_analysis, cancel_analysis
 from models.analysis_result import AnalysisStatus
@@ -17,10 +17,10 @@ class ApiResponse(BaseModel):
 
 
 class AnalysisRunRequest(BaseModel):
-	project_id: int = Field(..., ge=1)
-	file_ids: conlist(int, min_items=1)
-	ai_endpoint: str = Field(..., description="Azure ML endpoint name or URL")
-	enable_llm_explain: bool = False
+    project_id: int = Field(..., ge=1)
+    file_ids: List[int] = Field(..., min_length=1, description="List of file IDs to analyze")
+    ai_endpoint: str = Field(..., description="Azure ML endpoint name or URL")
+    enable_llm_explain: bool = False
 
 
 class AnalysisRunResponse(BaseModel):

@@ -30,6 +30,22 @@ from api.validators.file_validator import validate_uploaded_file
 logger = logging.getLogger(__name__)
 
 
+# Custom Exceptions
+class ProjectNotFoundError(Exception):
+    """Raised when a project is not found."""
+    pass
+
+
+class FileNotFoundError(Exception):
+    """Raised when a file is not found."""
+    pass
+
+
+class FileUploadError(Exception):
+    """Raised when file upload fails."""
+    pass
+
+
 BASE_STORAGE_DIR = os.getenv("FILE_STORAGE_DIR", os.path.join(os.getcwd(), "storage"))
 TMP_DIR = os.getenv("FILE_TMP_DIR", os.path.join(BASE_STORAGE_DIR, "tmp"))
 COMPRESS_THRESHOLD = int(os.getenv("FILE_COMPRESS_THRESHOLD_BYTES", str(5 * 1024 * 1024))) # 5MB

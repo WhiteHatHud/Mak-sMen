@@ -170,3 +170,8 @@ class LoggingMiddleware(BaseHTTPMiddleware):
 
 def add_auth_logging(app):
     app.add_middleware(LoggingMiddleware)
+
+
+def auth_middleware(app):
+    """Add authentication middleware to the FastAPI app."""
+    add_auth_logging(app)

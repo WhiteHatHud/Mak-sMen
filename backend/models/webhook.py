@@ -13,7 +13,7 @@ class Webhook(Base):
     id: Mapped[uuid.UUID] = mapped_column(GUID(), primary_key=True, default=uuid.uuid4)
     project_id: Mapped[uuid.UUID] = mapped_column(GUID(), ForeignKey('project.id', ondelete='CASCADE'), nullable=False, index=True)
     url: Mapped[str] = mapped_column(String(500), nullable=False)
-    events: Mapped[list[str]] = mapped_column(JSONType(), default=list)  # array of event types
+    events: Mapped[List[str]] = mapped_column(JSONType(), default=list)  # array of event types
     secret: Mapped[Optional[str]] = mapped_column(String(255))
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     created_at: Mapped[Optional[str]] = mapped_column(default=now_utc)

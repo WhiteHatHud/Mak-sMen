@@ -11,6 +11,9 @@ from datetime import datetime, timezone
 
 from celery import Celery
 
+# Import the celery app from analysis_worker
+from workers.analysis_worker import celery_app
+
 from services.llm.report_generator import ReportGenerator
 from services.llm.explainer import ExplainerService
 
