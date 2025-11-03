@@ -1,0 +1,9 @@
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+.DS_Store
+*.pkl
+*.joblib
+models/
+results/
+*.log

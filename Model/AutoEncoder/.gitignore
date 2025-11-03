@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+
+# Data files
+*.npy
+*.pkl
+*.h5
+*.csv
+
+# Plots
+*.png
+*.jpg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
