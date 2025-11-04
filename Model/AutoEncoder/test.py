@@ -6,9 +6,9 @@ from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_
 
 # 1. Load the trained model and preprocessor
 print("Loading model...")
-model = keras.models.load_model('best_autoencoder.h5', compile=False)
+model = keras.models.load_model('backup_7.7.h5', compile=False)
 preprocessor = SequencePreprocessor.load('preprocessor.pkl')
-threshold = np.load('threshold.npy')
+threshold = 3.0
 
 print(f"Anomaly threshold: {threshold:.6f}")
 
@@ -17,7 +17,7 @@ print(f"Anomaly threshold: {threshold:.6f}")
 # - timestamp, hostName, processId, processName, eventName
 # - userId, threadId, argsNum, returnValue, sus, evil
 
-test_data = pd.read_csv('test_sample_large.csv')
+test_data = pd.read_csv('../Beta dataset/labelled_testing_data.csv')
 print(f"Loaded {len(test_data)} system call events")
 
 # 3. Preprocess the data

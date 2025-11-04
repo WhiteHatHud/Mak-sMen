@@ -263,8 +263,8 @@ def main():
 
     # Determine threshold
     print("\n6. Determining anomaly threshold...")
-    threshold = determine_threshold(train_mse, percentile=95)
-
+    #threshold = 2.7383
+    threshold = 7.7
     # Plot error distribution
     print("\n7. Plotting error distribution...")
     plot_reconstruction_error_distribution(train_mse, test_mse, y_test, threshold)
