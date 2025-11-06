@@ -17,7 +17,7 @@ print(f"Anomaly threshold: {threshold:.6f}")
 # - timestamp, hostName, processId, processName, eventName
 # - userId, threadId, argsNum, returnValue, sus, evil
 
-test_data = pd.read_csv('../Beta dataset/labelled_testing_data.csv')
+test_data = pd.read_csv('../Beta dataset/labelled_validation_data.csv')
 print(f"Loaded {len(test_data)} system call events")
 
 # 3. Preprocess the data
@@ -120,11 +120,29 @@ if anomaly_count > 0:
         else:
             priorities.append('LOW')
 
-    # 7. Create results DataFrame
+    # 7. Create results DataFrame with additional context
+    # Extract process names from original data for better interpretability
+    process_names = []
+    for idx in anomaly_indices:
+        meta = metadata[idx]
+        # Find matching process in original data
+        process_mask = (test_data['processId'] == meta['processId']) & \
+                       (test_data['hostName'] == meta['hostName'])
+        process_subset = test_data[process_mask]
+
+        # Get process name if available
+        if len(process_subset) > 0 and 'processName' in process_subset.columns:
+            process_name = process_subset['processName'].mode()[0]
+        else:
+            process_name = 'unknown'
+
+        process_names.append(process_name)
+
     results = pd.DataFrame({
         'sequence_index': anomaly_indices,
         'hostName': [metadata[i]['hostName'] for i in anomaly_indices],
         'processId': [metadata[i]['processId'] for i in anomaly_indices],
+        'processName': process_names,
         'start_idx': [metadata[i]['start_idx'] for i in anomaly_indices],
         'reconstruction_error': anomaly_errors,
         'priority': priorities
